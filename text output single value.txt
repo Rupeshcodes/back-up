@@ -1,0 +1,8 @@
+<script>
+        var h = document.getElementById("r1");
+        var fbr = firebase.database().ref().child('heading');
+        
+         fbr.on('value',snap =>h.innerText=snap.val());
+        
+        
+        </script>

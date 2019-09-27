@@ -1,0 +1,12 @@
+var rootref= firebase.database().ref().child('post');
+rootref.on("child_added",snap =>{
+    
+    var name = snap.child("name").val();
+    var email = snap.child("email").val();
+    //alert("name;"+name+"  email;"+email);
+    document.getElementById("table_body").append("------------"+name+"----------"+email+"-------");
+    document.getElementById("table_body").append("<br>");
+     document.getElementById("new").innerText=name;
+});
+
+       

@@ -1,0 +1,15 @@
+function no();
+{ 
+    
+    alert("chalta re");
+var fref = firebase.database().ref();
+
+fref.child('user').push(
+
+{
+    email:"sexy",
+    username:"chalta re"
+}
+);
+
+}

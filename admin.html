@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>admin page</title>
+</head>
+
+<body>
+<br>
+<br>
+<center>
+<br>
+Picture no:<select id='yy'> &nbsp;&nbsp;&nbsp;
+  <option value="p1">pic 1</option>
+  <option value="p2">pic 2</option>
+  <option value="p3">pic 3</option>
+  <option value="p4">pic 4</option>
+  <option value="p5">pic 5</option>
+</select>
+<br><br>
+  Image:<input type="file" id="rimg" accept="image/*" >
+  <br><br>
+  
+  video:<input type="file" id="vid" accept="video/*">
+  
+</center>
+
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+ <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var fc= {
+ apiKey: "AIzaSyAgz96cVjgLkE87raSGht8bCzQdTjRJI5I",
+  authDomain: "mahalaxmialuminium2019.firebaseapp.com",
+  databaseURL: "https://mahalaxmialuminium2019.firebaseio.com",
+  projectId: "mahalaxmialuminium2019",
+  storageBucket: "mahalaxmialuminium2019.appspot.com",
+  messagingSenderId: "462720059289",
+  appId: "1:462720059289:web:9158db369cc7fa97"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(fc);
+  
+firebase.database().ref().child('pass').on('value',snap =>{
+    
+    var pa = snap.child("p").val();
+	var pass = prompt("Please enter password", "");
+    if(pa!=pass){window.location.href='index.html'}
+	
+	});
+
+  
+  
+var up=document.getElementById("rimg");
+  
+  rimg.addEventListener('change',function(e){
+  
+  var file=e.target.files[0];
+  
+   var storageRef=firebase.storage().ref('rest_dp/'+file.name);
+   uploadTask=storageRef.put(file);
+  
+ uploadTask.on('state_changed', function(snapshot){
+  // Observe state change events such as progress, pause, and resume
+  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  alert('Upload is ' + progress + '% done');
+  switch (snapshot.state) {
+    case firebase.storage.TaskState.PAUSED: // or 'paused'
+      console.log('Upload is paused');
+      break;
+    case firebase.storage.TaskState.RUNNING: // or 'running'
+      console.log('Upload is running');
+      break;
+  }
+}, function(error) {
+  // Handle unsuccessful uploads
+}, function() {
+  // Handle successful uploads on complete
+  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    console.log('File available at', downloadURL);
+
+	
+
+fref=firebase.database().ref();
+fref.child(''+document.getElementById('yy').value).update({p:downloadURL});
+		document.getElementById('rimg').value=null;
+		document.getElementById('yy').value='pic1';
+		alert('complete');
+	
+  });
+});
+  
+  });  
+  
+vid.addEventListener('change',function(e){
+  
+  var file=e.target.files[0];
+  
+   var storageRef=firebase.storage().ref('video/'+file.name);
+   uploadTask=storageRef.put(file);
+  
+ uploadTask.on('state_changed', function(snapshot){
+  // Observe state change events such as progress, pause, and resume
+  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  console.log('Upload is ' + progress + '% done');
+  switch (snapshot.state) {
+    case firebase.storage.TaskState.PAUSED: // or 'paused'
+      console.log('Upload is paused');
+      break;
+    case firebase.storage.TaskState.RUNNING: // or 'running'
+      console.log('Upload is running');
+      break;
+  }
+}, function(error) {
+  // Handle unsuccessful uploads
+}, function() {
+  // Handle successful uploads on complete
+  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    console.log('File available at', downloadURL);
+
+	
+
+fref=firebase.database().ref();
+fref.child('video').update({v:downloadURL});
+		
+		alert('complete');
+	
+  });
+});
+  
+  });  
+  
+  
+</script>
+
+
+
+</body>
+</html>
